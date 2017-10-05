@@ -36,7 +36,7 @@ def simple_rule(func):
 
 @rule
 def random(stations):
-    valid = rand.sample(STATIONS.keys(), 20)
+    valid = rand.sample(list(STATIONS.values()), 550)
 
     if stations[-1] not in valid:
         raise InvalidMove('Not allowed')
