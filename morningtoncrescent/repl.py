@@ -2,6 +2,7 @@ import readline
 from functools import lru_cache
 
 from .stations import STATIONS, GOAL, pick_station
+from .rules import rules, InvalidMove
 
 
 @lru_cache()
@@ -41,6 +42,13 @@ def repl():
             try:
                 station = STATIONS[human_pick]
             except KeyError:
+                continue
+
+            try:
+                for rule in rules.values():
+                    rule(history + [station])
+            except InvalidMove as e:
+                print(e.args[0])
                 continue
             else:
                 break
