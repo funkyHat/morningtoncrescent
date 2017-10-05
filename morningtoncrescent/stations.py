@@ -6,7 +6,7 @@ from collections import namedtuple
 from io import StringIO
 
 
-Station = namedtuple('Station', 'name zone postcode')
+Station = namedtuple('Station', 'name zones postcode')
 
 
 def postcode_zone(postcode):
@@ -17,12 +17,16 @@ def load_csv(name):
     stations = pkgutil.get_data(__name__, f'data/{name}.csv').decode('utf8')
     reader = csv.DictReader(StringIO(stations))
     for row in reader:
-
         yield Station(
             name=row['Station'],
-            zone={int(z) for z in row['Zone'].split(',') if z},
+            zones={int(z) for z in row['Zone'].split(',') if z},
             postcode=postcode_zone(row['Postcode']),
         )
 
 
-STATIONS = list(load_csv('stations'))
+STATIONS = {s.name: s for s in load_csv('stations')}
+STATIONS_BY_ZONE = {}
+
+for s in STATIONS.values():
+    for zone in s.zones:
+        STATIONS_BY_ZONE.setdefault(zone, []).append(s)
