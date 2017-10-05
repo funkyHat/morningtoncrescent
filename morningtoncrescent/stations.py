@@ -4,6 +4,7 @@ import csv
 import pkgutil
 from collections import namedtuple
 from io import StringIO
+import random
 
 
 Station = namedtuple('Station', 'name zones postcode')
@@ -30,3 +31,13 @@ STATIONS_BY_ZONE = {}
 for s in STATIONS.values():
     for zone in s.zones:
         STATIONS_BY_ZONE.setdefault(zone, []).append(s)
+
+
+_STATIONS_LIST = list(STATIONS.values())
+
+
+def pick_station():
+    return random.choice(_STATIONS_LIST)
+
+
+GOAL = STATIONS['Mornington Crescent']
