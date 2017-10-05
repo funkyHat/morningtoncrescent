@@ -1,5 +1,4 @@
-from morningtoncrescent.stations import STATIONS
-
+from morningtoncrescent.repl import repl
 
 if __name__ == '__main__':
-    print(STATIONS[0])
+    repl()
